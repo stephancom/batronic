@@ -16,9 +16,10 @@ rake db:migrate
 rake db:migrate DATABASE_ENV=test
 rspec
 
-
 ### Assumptions
 All requests currently are based on data in the hitting file. Future requests of the system will require data from a pitching file as well. Consider this in the design.
+
+**note** I am assuming that all computed values should be limited to three significant digits after the decimal point, per baseball convention.
 
 ### Requirements
 
