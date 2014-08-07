@@ -35,5 +35,9 @@ describe BattingStatistic do
       batter = create(:batting_statistic, at_bats: 50, hits: 10)
       expect(batter.batting_average).to eq(0.2)
     end
+    it "should compute 0 for 0 hits and 0 at-bats" do
+      batter = create(:batting_statistic, at_bats: 0, hits: 0)
+      expect(batter.batting_average).to eq(0)
+    end
   end
 end
