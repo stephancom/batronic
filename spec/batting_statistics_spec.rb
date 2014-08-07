@@ -12,6 +12,8 @@ describe BattingStatistics do
   it { is_expected.to respond_to(:homers)     }
   it { is_expected.to respond_to(:rbi)        }
 
+  it { is_expected.to respond_to(:batter)     }
+
   describe "batting average" do
     it "should compute 0.5 for 50 hits and 100 at-bats" do
       batter = create(:batting_statistics, at_bats: 100, hits: 50)
