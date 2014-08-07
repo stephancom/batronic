@@ -13,5 +13,7 @@ class CreateBattingStatistics < ActiveRecord::Migration
       t.integer :homers
       t.integer :rbi
     end
+
+    add_index :batting_statistics, :player_key
   end
 end
