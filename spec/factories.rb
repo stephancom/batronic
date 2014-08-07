@@ -11,4 +11,16 @@ FactoryGirl.define do
   factory :batter, parent: :player do
     
   end
+  factory :batting_statistics do
+    player_key
+    year 1968
+    league 'AL'
+    team 'XYZ'
+    at_bats 100
+    hits    50
+    doubles 25
+    triples 10
+    homers  5
+    rbi     20
+  end
 end

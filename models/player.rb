@@ -1,4 +1,4 @@
-require_relative './config/environment.rb'
+require_relative '../config/environment.rb'
 
 class Player < ActiveRecord::Base
   def full_name

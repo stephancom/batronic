@@ -1,5 +1,5 @@
 require 'spec_helper'
-require './player'
+require './models/player'
 
 describe Player do
   subject(:player) { create(:player, birth_year: 2975, first_name: 'Turanga', last_name: 'Leela') }
