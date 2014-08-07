@@ -1,31 +1,40 @@
-require './player'
+require './config/environment.rb'
+require './models/batter'
+require 'ruby-progressbar'
 
-# the Batronic class represents a roster of Batters with their statistics
-# CSV loading methods are included here for convenience
-# it might be better to have this descend from a more abstract Roster class
-class Batronic
-  def initialize(players_file, batting_file)
-    @players = Batronic.load_batters_file(players_file)
-    Batronic.add_batting_statistice(@players, batting_file)
-  end  
+# Batter.all.each do |b|
+#   puts "#{b.player_key} #{b.batting_statistics.count}" if b.batting_statistics.count>1
+# end
 
-  # this sort of thing is why I would rather be using ActiveRecord
-  def find_player_by_id(id)
-    Player.new # TODO
+def most_improved
+  puts "Finding most improved batting average from 2009 to 2010 for players with at least 200 at-bats (ignoring ties)"
+
+  # we presume this to mean at-bats in 2009-2010, not lifetime
+  # there is probably a more efficient way to do this directly in the database
+  candidates = {}
+  bar = ProgressBar.create(total: Batter.count)
+  Batter.all.each do |b|
+    bar.increment
+    twothousand09_stats = b.batting_statistics.find_by(year: 2009)
+    twothousand10_stats = b.batting_statistics.find_by(year: 2010)
+
+    # skip players with no records for either year or insufficient at bats
+    next if twothousand10_stats.nil? or twothousand09_stats.nil?
+    next if twothousand09_stats.at_bats + twothousand10_stats.at_bats < 200
+
+    improvement = twothousand10_stats.batting_average - twothousand09_stats.batting_average
+
+    # though the spec did not explicitly say so, we assume that we can skip players who got worse
+    next if improvement < 0
+
+    candidates[b.player_key] = improvement
   end
+  bar.finish
 
-  class << self
-    # returns an array of batters from the CSV
-    def load_batters_file(players_file)
-      []
-    end
+  winner_key = candidates.sort_by( &:last).last
+  winner = Batter.find_by(player_key: winner_key)
 
-    # given an array of players and a file of batting statistics
-    # add the statistics to the player
-    def add_batting_statistice(players, batting_file)
-      # TODO
-    end
-  end
+  puts "Most Improved 2009-2010: #{winner}"
 end
 
-# Batronic.new('Master-small.csv', 'Batting-07-12.csv')
+most_improved()

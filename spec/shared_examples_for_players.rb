@@ -9,4 +9,9 @@ shared_examples_for 'a player' do
   it "should deliver full name" do
     expect(subject.full_name).to eq(full_name)
   end
+
+  it "should give full name and year of birth in to_s" do
+    expect(subject.to_s).to match(full_name)
+    expect(subject.to_s).to match(subject.birth_year.to_s)
+  end
 end
