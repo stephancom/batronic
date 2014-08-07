@@ -45,3 +45,8 @@ All the necessary data is available in the two csv files attached:
 * **Master-small.csv**
 
   Contains the demographic data for all baseball players in history through 2012.
+
+### References
+
+http://exposinggotchas.blogspot.com/2011/02/activerecord-migrations-without-rails.html
+http://blog.flatironschool.com/post/58164473975/connecting-ruby-active-record-without-rails

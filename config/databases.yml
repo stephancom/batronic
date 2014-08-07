@@ -1,0 +1,8 @@
+development:
+  adapter: mysql
+  user: root
+  password:
+  database: batronic_dev
+  host: localhost
+  logger: false
+
