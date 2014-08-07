@@ -5,6 +5,7 @@ gem 'rspec'
 gem 'sqlite3'
 gem 'rake-progressbar'
 gem 'ruby-progressbar'
+gem 'terminal-table'
 
 group :development, :test do
   gem 'rspec'

@@ -10,8 +10,9 @@ STATS_FILE = 'Batting-07-12.csv'
 namespace :seeds do
   desc 'load the players file'
   task :players do
-    puts "Loading players"
+    puts "Clearing players"
     Player.destroy_all
+    puts "Loading players"
 
     fields = []
     first = true
@@ -36,8 +37,9 @@ namespace :seeds do
 
   desc 'load the statistics file'
   task :batting_statistics do
-    puts "Loading statistics"
+    puts "Clearing statistics"
     BattingStatistic.destroy_all
+    puts "Loading statistics"
 
     fields = []
     first = true

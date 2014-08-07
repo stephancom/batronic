@@ -92,9 +92,29 @@ describe BattingStatistic do
       expect(stats.slugging_percentage).to eq(0.987)
     end
 
-    it "should compute 0 for 0 hits" do
+    it "should compute 0 for 0 at bats" do
       stats = create(:batting_statistic, at_bats: 0)
       expect(stats.slugging_percentage).to eq(0)
     end
+    it "should not fail on nil at_bars" do
+      stats = create(:batting_statistic, at_bats: nil)
+      expect{stats.slugging_percentage}.not_to raise_error
+    end
+    it "should not fail on nil hits" do
+      stats = create(:batting_statistic, hits: nil)
+      expect{stats.slugging_percentage}.not_to raise_error
+    end
+    it "should not fail on nil doubles" do
+      stats = create(:batting_statistic, doubles: nil)
+      expect{stats.slugging_percentage}.not_to raise_error
+    end
+    it "should not fail on nil triples" do
+      stats = create(:batting_statistic, triples: nil)
+      expect{stats.slugging_percentage}.not_to raise_error
+    end
+    it "should not fail on nil homers" do
+      stats = create(:batting_statistic, at_bats: nil)
+      expect{stats.slugging_percentage}.not_to raise_error
+    end    
   end
 end

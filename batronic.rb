@@ -1,6 +1,7 @@
 require './config/environment.rb'
 require './models/batter'
 require 'ruby-progressbar'
+require 'terminal-table'
 
 # Batter.all.each do |b|
 #   puts "#{b.player_key} #{b.batting_statistics.count}" if b.batting_statistics.count>1
@@ -37,4 +38,16 @@ def most_improved
   puts "Most Improved 2009-2010: #{winner}"
 end
 
+def oakland_slugging
+  puts "Slugging percentage for all players on the Oakland A's in 2007"
+
+  players = {}
+  BattingStatistic.where(year: 2007, team: 'OAK').each do |s|
+    players[Batter.find_by(player_key: s.player_key).full_name] = '%0.3f' % s.slugging_percentage.to_f
+  end
+
+  puts Terminal::Table.new(:rows => players.sort_by(&:last).reverse)
+end
+
 most_improved()
+oakland_slugging()
