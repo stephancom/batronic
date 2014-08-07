@@ -23,6 +23,7 @@ GEM
     i18n (0.6.11)
     json (1.8.1)
     minitest (5.4.0)
+    rake-progressbar (0.0.5)
     rspec (3.0.0)
       rspec-core (~> 3.0.0)
       rspec-expectations (~> 3.0.0)
@@ -47,5 +48,6 @@ DEPENDENCIES
   activerecord
   database_cleaner
   factory_girl (~> 4.0)
+  rake-progressbar
   rspec
   sqlite3

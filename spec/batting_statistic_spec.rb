@@ -15,6 +15,36 @@ describe BattingStatistic do
 
   it { is_expected.to respond_to(:batter)  }
 
+  describe "duplicate year/player/team" do
+    # note - I'm allowing duplicate year/player because I thought the data might have
+    # two records for the same player in the same year in two different teams.
+    before(:all) do
+      create(:batting_statistic, player_key: 'beeblza01', year: 2001, team: 'BET')      
+    end
+
+    it "should allow same player/year, different team" do      
+      expect {
+        create(:batting_statistic, player_key: 'beeblza01', year: 2001, team: 'SIR')
+      }.not_to raise_error()
+    end
+
+    it "should allow same player/team, different year" do      
+      expect {
+        create(:batting_statistic, player_key: 'beeblza01', year: 1999, team: 'BET')
+      }.not_to raise_error()
+    end
+
+    it "should be invalid for same year/player/team" do
+      expect(build(:batting_statistic, player_key: 'beeblza01', year: 2001, team: 'BET')).not_to be_valid
+    end
+
+    it "should not allow same year/player/team" do
+      expect {
+        create(:batting_statistic, player_key: 'beeblza01', year: 2001, team: 'BET')
+      }.to raise_error(ActiveRecord::RecordInvalid)
+    end
+  end
+
   it "has a Batter object" do
     expect(stats.batter).to be_a(Batter)
   end

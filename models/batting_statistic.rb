@@ -1,6 +1,9 @@
 require_relative '../config/environment.rb'
 
 class BattingStatistic < ActiveRecord::Base
+  validates :player_key, uniqueness: { scope: [:year, :team]}
+  validates :league, inclusion: {in: %w(AL NL)}
+
   belongs_to :batter, foreign_key: :player_key, primary_key: :player_key, inverse_of: :batting_statistics
 
   def batting_average
