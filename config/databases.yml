@@ -1,8 +1,24 @@
 development:
-  adapter: mysql
+  adapter: sqlite3
   user: root
   password:
-  database: batronic_dev
+  database: batronic_dev.db
+  host: localhost
+  logger: false
+
+test:
+  adapter: sqlite3
+  user: root
+  password:
+  database: batronic_test.db
+  host: localhost
+  logger: false
+
+production:
+  adapter: sqlite3
+  user: root
+  password:
+  database: batronic_production.db
   host: localhost
   logger: false
 

@@ -1,7 +1,8 @@
+require 'spec_helper'
 require './batter'
 
 describe Batter do
-  subject(:player) { Batter.new('leelatu01', 2975, 'Turanga', 'Leela') }
+  subject(:player) { create(:player, birth_year: 2975, first_name: 'Turanga', last_name: 'Leela') }
 
   # TODO TEST VALIDATIONS
   it { is_expected.to respond_to(:at_bats)    }
