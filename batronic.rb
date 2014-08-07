@@ -7,8 +7,8 @@ require 'terminal-table'
 #   puts "#{b.player_key} #{b.batting_statistics.count}" if b.batting_statistics.count>1
 # end
 
-def most_improved
-  puts "Finding most improved batting average from 2009 to 2010 for players with at least 200 at-bats (ignoring ties)"
+def most_improved(year1, year2, min_bats = 200)
+  puts "Finding most improved batting average from #{year1} to #{year2} for players with at least #{min_bats} at-bats (ignoring ties)"
 
   # we presume this to mean at-bats in 2009-2010, not lifetime
   # there is probably a more efficient way to do this directly in the database
@@ -16,12 +16,12 @@ def most_improved
   bar = ProgressBar.create(total: Batter.count)
   Batter.all.each do |b|
     bar.increment
-    twothousand09_stats = b.batting_statistics.find_by(year: 2009)
-    twothousand10_stats = b.batting_statistics.find_by(year: 2010)
+    twothousand09_stats = b.batting_statistics.find_by(year: year1)
+    twothousand10_stats = b.batting_statistics.find_by(year: year2)
 
     # skip players with no records for either year or insufficient at bats
     next if twothousand10_stats.nil? or twothousand09_stats.nil?
-    next if twothousand09_stats.at_bats + twothousand10_stats.at_bats < 200
+    next if twothousand09_stats.at_bats + twothousand10_stats.at_bats < min_bats
 
     improvement = twothousand10_stats.batting_average - twothousand09_stats.batting_average
 
@@ -35,19 +35,21 @@ def most_improved
   winner_key = candidates.sort_by( &:last).last
   winner = Batter.find_by(player_key: winner_key)
 
-  puts "Most Improved 2009-2010: #{winner}"
+  puts "Most Improved #{year1}-#{year2}: #{winner}"
 end
 
-def oakland_slugging
-  puts "Slugging percentage for all players on the Oakland A's in 2007"
+def team_slugging(team, year)
+  puts "Slugging percentage for all players on #{team} in #{year}"
 
   players = {}
-  BattingStatistic.where(year: 2007, team: 'OAK').each do |s|
+  BattingStatistic.where(year: year, team: team).each do |s|
     players[Batter.find_by(player_key: s.player_key).full_name] = '%0.3f' % s.slugging_percentage.to_f
   end
 
   puts Terminal::Table.new(:rows => players.sort_by(&:last).reverse)
 end
 
-most_improved()
-oakland_slugging()
+most_improved(2009, 2010, 200)
+puts
+puts
+team_slugging('OAK', 2007)
