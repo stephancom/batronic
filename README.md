@@ -11,12 +11,16 @@ For this scenario, we have been asked to write an application that will be used 
 
 Uses sqlite, so there's no need to db:create. Use DATABASE_ENV instead of RAILS_ENV
 
-bundle install
-rake db:migrate
-rake db:migrate DATABASE_ENV=test
-rspec
-rake seeds:all
-ruby batronic
+Expects Ruby 2
+
+* git clone https://github.com/stephancom/batronic
+* cd batronic
+* bundle install
+* rake db:migrate
+* rake db:migrate DATABASE_ENV=test
+* rspec
+* rake seeds:all
+* ruby batronic.rb
 
 ### Assumptions
 All requests currently are based on data in the hitting file. Future requests of the system will require data from a pitching file as well. Consider this in the design.
