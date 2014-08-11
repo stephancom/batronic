@@ -28,8 +28,8 @@ def team_slugging(team, year)
   puts "Slugging percentage for all players on #{team} in #{year}"
 
   players = {}
-  BattingStatistic.where(year: year, team: team).each do |s|
-    players[Batter.find_by(player_key: s.player_key).full_name] = '%0.3f' % s.slugging_percentage.to_f
+  BattingStatistic.where(year: year, team: team).player_slugging do |batter, slugging_percentage|
+    players[batter.full_name] = '%0.3f' % slugging_percentage.to_f
   end
 
   puts Terminal::Table.new(:rows => players.sort_by(&:last).reverse)
@@ -69,18 +69,18 @@ def triple_crown(league, year)
   end
 end
 
-puts
-puts
-most_improved(2009, 2010, 200)
-puts
+# puts
+# puts
+# most_improved(2009, 2010, 200)
+# puts
 puts
 team_slugging('OAK', 2007)
 puts
-puts
-[2011, 2012].each do |year|
-  %w(AL NL).each do |league|
-    triple_crown(league, year)
-    puts
-  end
-end
-puts
+# puts
+# [2011, 2012].each do |year|
+#   %w(AL NL).each do |league|
+#     triple_crown(league, year)
+#     puts
+#   end
+# end
+# puts

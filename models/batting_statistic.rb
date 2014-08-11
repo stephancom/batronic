@@ -17,6 +17,13 @@ class BattingStatistic < ActiveRecord::Base
     at_bats == 0 ? 0 : (((hits-doubles-triples-homers) + (2 * doubles) + (3 * triples) + (4 * homers)).to_f/at_bats).round(3)
   end
 
+  def self.player_slugging
+    all.each do |s|
+      yield Batter.find_by(player_key: s.player_key), s.slugging_percentage
+    end
+  end
+
+
   # TODO aggregate averages/percentages
 
   private
