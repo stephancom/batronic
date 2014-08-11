@@ -23,6 +23,33 @@ class BattingStatistic < ActiveRecord::Base
     end
   end
 
+  CROWN_METHODS = [:batting_average, :homers, :rbi]
+
+  def self.triple_crown(league, year)
+    top_values = {}
+    top_keys = {}
+    # initialize hashes
+    CROWN_METHODS.each do |method|
+      top_values[method] = 0
+      top_keys[method] = []
+    end
+    # iterate through stats keeping track of winner in each category
+    where(year: year, league: league).each do |s|
+      next if s.at_bats < 400
+      CROWN_METHODS.each do |method|
+        value = s.send(method)
+        if value > top_values[method]
+          top_values[method] = value
+          top_keys[method] = [s.player_key]
+        elsif value == top_values[method]
+          top_keys[method] << s.player_key
+        end
+      end
+    end
+
+    winner = (top_keys[:batting_average] & top_keys[:homers] & top_keys[:rbi]).first
+    Batter.find_by(player_key: winner)
+  end
 
   # TODO aggregate averages/percentages
 
